@@ -1,0 +1,56 @@
+<h1>To do list</h1>
+<hr>
+<form>
+  <input type="text" class="form-control" [(ngModel)]="newTask" name="newTask">
+  <button type="button" class="btn btn-success mt-3" (click)="addPost()" [disabled]="!newTask">Add new task</button>
+</form>
+<div class="dropdown mt-3">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+    aria-haspopup="true" aria-expanded="false">
+    Filter table
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="#" (click)="getAll()">All</a>
+    <a class="dropdown-item" href="#" (click)="getSelected()">Completed</a>
+    <a class="dropdown-item" href="#" (click)="getUnSelected()">Not completed</a>
+  </div>
+</div>
+
+<table class="table mt-3">
+  <thead>
+    <th>#</th>
+    <th>Task</th>
+    <th>Complete</th>
+    <th>Delete</th>
+  </thead>
+
+  <ng-container *ngIf="toDoListFiltered; else elseTemplate">
+    <tbody>
+      <tr *ngFor="let item of toDoListFiltered; let i=index"
+        [ngStyle]="{'background-color': item.completed? 'lightgreen' : 'skyblue'}">
+        <td>{{i+1}}</td>
+        <td>{{item.title}}</td>
+        <td><input type="checkbox" [checked]="item.completed" (click)="isChecked(i)"></td>
+        <td>
+          <button class="btn btn-danger" (click)="deletePost(i)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+
+  </ng-container>
+  <ng-template #elseTemplate>
+    <tbody>
+      <tr *ngFor="let item of toDoList; let i=index"
+        [ngStyle]="{'background-color': item.completed? 'lightgreen' : 'skyblue'}">
+        <td>{{i+1}}</td>
+        <td>{{item.title}}</td>
+        <td><input type="checkbox" [checked]="item.completed" (click)="isChecked(i)"></td>
+        <td>
+          <button class="btn btn-danger" (click)="deletePost(i)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+
+  </ng-template>
+  >
+</table>
